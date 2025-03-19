@@ -68,7 +68,7 @@ inline void HashSlotFunction(DataChunk &args, ExpressionState &state, Vector &re
     
   UnaryExecutor::Execute<string_t, int32_t>(input, result, args.size(),
     [&](string_t input_val) {
-      if (input_val.IsNull()) {
+      if (input_val.GetSize() == 0) {
         return int32_t(0);
       }
             
@@ -83,7 +83,7 @@ inline void NodeFunction(DataChunk &args, ExpressionState &state, Vector &result
     
   BinaryExecutor::Execute<string_t, int32_t, int32_t>(input, node_count, result, args.size(),
     [&](string_t input_val, int32_t nodes) {
-      if (input_val.IsNull()) {
+      if (input_val.GetSize() == 0) {
         return int32_t(0);
       }
             
