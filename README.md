@@ -38,16 +38,9 @@ This extension implements a consistent hashing algorithm:
 git clone https://github.com/lebmatter/duckdb-cluster-hash.git
 cd duckdb-cluster-hash
 
-# Create build directory
-mkdir build
-cd build
-
-# Configure and build
-cmake ..
-make
-
-# Install (optional)
-sudo make install
+# Build with Docker
+docker build -t duckdb_clusterhash .
+docker run --rm duckdb_clusterhash cat /build/release/extension/cluster_hash/cluster_hash.duckdb_extension > cluster_hash.duckdb_extension
 ```
 
 ## Usage Examples
@@ -55,7 +48,7 @@ sudo make install
 Load the extension:
 
 ```sql
-LOAD 'cluster_hash';
+LOAD '/path/to/cluster_hash.duckdb_extension';
 ```
 
 Calculate hash slots for keys:
