@@ -3,7 +3,7 @@
 This DuckDB extension adds two functions that calculate hash slots and node assignments for string values using the CRC16-XMODEM algorithm:
 
 1. `cluster_slot(key)` - Calculates the hash slot (0-16383) for a given string
-2. `cluster_node(key, node_count)` - Returns which node would own the key in a cluster with `node_count` nodes (1-6)
+2. `cluster_node(key)` - Returns which node (1-6) would own the key in a cluster
 
 ## Why is this useful?
 
