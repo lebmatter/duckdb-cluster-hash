@@ -36,9 +36,10 @@ const uint16_t _x_mode_m_crc16_lookup[] = {
     0x18c0, 0x08e1, 0x3882, 0x28a3, 0xcb7d, 0xdb5c, 0xeb3f, 0xfb1e, 0x8bf9, 0x9bd8, 0xabbb, 0xbb9a,
     0x4a75, 0x5a54, 0x6a37, 0x7a16, 0x0af1, 0x1ad0, 0x2ab3, 0x3a92, 0xfd2e, 0xed0f, 0xdd6c, 0xcd4d,
     0xbdaa, 0xad8b, 0x9de8, 0x8dc9, 0x7c26, 0x6c07, 0x5c64, 0x4c45, 0x3ca2, 0x2c83, 0x1ce0, 0x0cc1,
-    0xef1f, 0xff3e, 0xcf1d, 0xdf3c, 0xaf9b, 0xbfba, 0x8fd9, 0x9ff8, 0x6e17, 0x7e36, 0x4e55, 0x5e74,
+    0xef1f, 0xff3e, 0xcf5d, 0xdf7c, 0xaf9b, 0xbfba, 0x8fd9, 0x9ff8, 0x6e17, 0x7e36, 0x4e55, 0x5e74,
     0x2e93, 0x3eb2, 0x0ed1, 0x1ef0
 };
+
 
 uint16_t _crc16(const uint8_t* data, size_t length) {
     uint16_t crc = 0;
@@ -48,7 +49,7 @@ uint16_t _crc16(const uint8_t* data, size_t length) {
     return crc & 0xffff;
 }
 
-int get_hash(const std::string& key) {
+int get_slot(const std::string& key) {
     size_t start = key.find('{');
     size_t end = std::string::npos;
     if (start != std::string::npos) {
@@ -63,7 +64,7 @@ int get_hash(const std::string& key) {
 
 int get_node(const std::string& key) {
     // Calculate the slot for the given string key
-    int slot = get_hash(key);
+    int slot = get_slot(key);
 
     // Determine which shard is responsible for the slot based on the hardcoded ranges
     int shard;
@@ -95,7 +96,7 @@ inline void ClusterHashFn(DataChunk &args, ExpressionState &state,
   UnaryExecutor::Execute<string_t, int32_t>(
       name_vector, result, args.size(),
       [&](string_t name) {
-        return get_hash(name.GetString());
+        return get_slot(name.GetString());
       });
 }
 
