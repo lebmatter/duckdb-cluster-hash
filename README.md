@@ -2,8 +2,8 @@
 
 This DuckDB extension adds two functions that calculate hash slots and node assignments for string values using the CRC16-XMODEM algorithm:
 
-1. `hash_slot(key)` - Calculates the hash slot (0-16383) for a given string
-2. `node(key, node_count)` - Returns which node would own the key in a cluster with `node_count` nodes (1-6)
+1. `cluster_slot(key)` - Calculates the hash slot (0-16383) for a given string
+2. `cluster_node(key, node_count)` - Returns which node would own the key in a cluster with `node_count` nodes (1-6)
 
 ## Why is this useful?
 
@@ -56,11 +56,11 @@ Calculate hash slots for keys:
 ```sql
 SELECT 
     'user:1000' AS key,
-    hash_slot('user:1000') AS slot;
+    cluster_slot('user:1000') AS slot;
     
 SELECT 
     '{user:profile}:1000' AS key,
-    hash_slot('{user:profile}:1000') AS slot;
+    cluster_slot('{user:profile}:1000') AS slot;
 ```
 
 Analyze key distribution across nodes:
@@ -76,8 +76,8 @@ INSERT INTO test_keys VALUES
 -- Analyze distribution
 SELECT 
     key,
-    hash_slot(key) AS slot,
-    node(key, 3) AS node_id
+    cluster_slot(key) AS slot,
+    cluster_node(key, 3) AS node_id
 FROM test_keys;
 ```
 
@@ -91,8 +91,8 @@ This implementation uses hash tags (parts of a key enclosed in `{...}`) to force
 SELECT 
     '{user:1000}:profile' AS key1,
     '{user:1000}:sessions' AS key2,
-    hash_slot('{user:1000}:profile') AS slot1,
-    hash_slot('{user:1000}:sessions') AS slot2;
+    cluster_slot('{user:1000}:profile') AS slot1,
+    cluster_slot('{user:1000}:sessions') AS slot2;
 ```
 
 Both keys will have the same hash slot because they share the same hash tag.
@@ -109,7 +109,7 @@ CREATE TABLE test_keys AS
     
 -- Check distribution across 3 nodes
 SELECT 
-    node(key, 3) AS node_id,
+    cluster_node(key, 3) AS node_id,
     COUNT(*) AS key_count
 FROM test_keys
 GROUP BY node_id
