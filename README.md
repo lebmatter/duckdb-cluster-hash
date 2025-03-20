@@ -48,9 +48,9 @@ docker run --rm duckdb_ch cat /build/release/extension/clusterhash/clusterhash.d
 Load the extension:
 
 ```
-$ wget https://github.com/lebmatter/duckdb-clusterhash/releases/download/v1.0.0/clusterhash.duckdb_extension
 $ duckdb -unsigned
-LOAD '/path/to/clusterhash.duckdb_extension';
+INSTALL 'https://github.com/lebmatter/duckdb-clusterhash/releases/download/v1.0.0/clusterhash.duckdb_extension'
+LOAD 'clusterhash';
 ```
 
 Calculate hash slots for keys:
