@@ -3,7 +3,7 @@
 This DuckDB extension adds two functions that calculate hash slots and node assignments for string values using the CRC16-XMODEM algorithm:
 
 1. `hash_slot(key)` - Calculates the hash slot (0-16383) for a given string
-2. `node(key, node_count)` - Returns which node would own the key in a cluster with `node_count` nodes
+2. `node(key, node_count)` - Returns which node would own the key in a cluster with `node_count` nodes (1-6)
 
 ## Why is this useful?
 
@@ -35,12 +35,12 @@ This extension implements a consistent hashing algorithm:
 
 ```bash
 # Clone this repository
-git clone https://github.com/lebmatter/duckdb-cluster-hash.git
+git clone https://github.com/lebmatter/duckdb-clusterhash.git
 cd duckdb-cluster-hash
 
 # Build with Docker
-docker build -t duckdb_clusterhash .
-docker run --rm duckdb_clusterhash cat /build/release/extension/cluster_hash/cluster_hash.duckdb_extension > cluster_hash.duckdb_extension
+docker build -t duckdb_ch .
+docker run --rm duckdb_ch cat /build/release/extension/clusterhash/clusterhash.duckdb_extension > clusterhash.duckdb_extension
 ```
 
 ## Usage Examples
@@ -48,7 +48,7 @@ docker run --rm duckdb_clusterhash cat /build/release/extension/cluster_hash/clu
 Load the extension:
 
 ```sql
-LOAD '/path/to/cluster_hash.duckdb_extension';
+LOAD '/path/to/clusterhash.duckdb_extension';
 ```
 
 Calculate hash slots for keys:

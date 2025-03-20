@@ -4,7 +4,7 @@
 
 namespace duckdb {
 
-class ClusterHashExtension : public Extension {
+class ClusterhashExtension : public Extension {
 public:
   void Load(DuckDB &db) override;
   std::string Name() override;
