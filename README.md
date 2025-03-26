@@ -1,3 +1,5 @@
+<a href="https://zerodha.tech"><img src="https://zerodha.tech/static/images/github-badge.svg" align="right" alt="Zerodha Tech Badge" /></a>
+
 # Cluster Hash DuckDB Extension
 
 This DuckDB extension adds two functions that calculate hash slots and node assignments for string values using the CRC16-XMODEM algorithm:
